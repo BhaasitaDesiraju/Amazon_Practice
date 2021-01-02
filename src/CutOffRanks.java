@@ -66,6 +66,61 @@ import java.util.Arrays;
 public class CutOffRanks {
 
   public int cutOffRank(int cutOffRank, int num, int[] scores) {
+    if (cutOffRank == 0) {
+      return 0;
+    }
+
+    if (num > 100000) {
+      return 0;
+    }
+
+    Arrays.sort(scores);
+
+    //Calculate the rank and update the qualifying players count
+    int count = 1;
+    int lastScore = scores[num - 1];
+
+    if (lastScore > 100) {
+      return 0;
+    }
+
+    for (int i = num - 2; i >= 0; i--) {
+      if (scores[i] == lastScore) {
+        count++;
+      }
+      else {
+        lastScore = scores[i];
+        if (count < cutOffRank) {
+          count++;
+        }
+        else {
+          return count;
+        }
+      }
+    }
+    return count;
+  }
+
+  public static void main(String[] args) {
+    CutOffRanks cutOffRanks = new CutOffRanks();
+    int count = cutOffRanks.cutOffRank(3, 4, new int[]{100, 50, 50, 25});
+    System.out.println("Expected = 3 Actual = " + count);
+    int count1 = cutOffRanks.cutOffRank(4, 5, new int[]{2, 2, 3, 4, 5});
+    System.out.println("Expected = 5 Actual = " + count1);
+  }
+}
+
+/*
+//O(n^2) approach
+  public int cutOffRank(int cutOffRank, int num, int[] scores) {
+    if (cutOffRank == 0) {
+      return 0;
+    }
+
+    if (num > 100000) {
+      return 0;
+    }
+
     int rank = 1;
 
     // sort the array
@@ -73,17 +128,19 @@ public class CutOffRanks {
 
     //Calculate the rank and update the qualifying players count
     int count = 0;
-    for(int i=num-1; i>=0; ) {
+    for (int i = num - 1; i >= 0; ) {
       int max = scores[i];
       int j = i;
-      for( ; j>=0; j--) {
-        if(scores[j] == max) {
-          if(rank <= cutOffRank) {
+      for (; j >= 0; j--) {
+        if (scores[j] == max) {
+          if (rank <= cutOffRank) {
             count++;
-          } else {
+          }
+          else {
             return count;
           }
-        } else {
+        }
+        else {
           rank = num - j;
           break;
         }
@@ -92,19 +149,4 @@ public class CutOffRanks {
     }
     return count;
   }
-
-  public static void main(String[] args) {
-    CutOffRanks cutOffRanks = new CutOffRanks();
-    int count = cutOffRanks.cutOffRank(3, 4, new int[]{100, 50, 50, 25});
-    System.out.println("Actual = 3 Expected = "+count);
-    int count1 = cutOffRanks.cutOffRank(4, 5, new int[]{2,2,3,4,5});
-    System.out.println("Actual = 5 Expected = "+count1);
-  }
-}
-
-/*
-Test Case -- User Solution Time: 204694478
-Optimal Solution Time:79761685
-
-(82/87) Time Limit Exceed -- Input: Array size 9000001 ... Expected: Output:
 */
