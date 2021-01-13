@@ -42,4 +42,65 @@ Total = 22 + 17 = 39
 */
 
 public class MinimumTotalContainerSize {
+
+  //Note
+  //load all items within 'd' days
+  //To load an 'i'th item all the prev items should have been loaded
+  //load atleast one item everyday
+
+  public int findMinTotalContainerSize(int[] items, int days) {
+    int numberOfItems = items.length;
+    if (days > numberOfItems) {
+      return -1;
+    }
+
+    int[][] dp = new int[days][numberOfItems];
+
+    // Initialize dp for single day
+    dp[0][0] = items[0];
+    //filling the first row i.e, first value of all columns with max item val
+    for (int j = 1; j < numberOfItems; j++) {
+      dp[0][j] = Math.max(dp[0][j - 1], items[j]);
+    }
+    // For each day
+    for (int i = 1; i < days; i++) {
+      // For each item
+      for (int j = i; j < numberOfItems; j++) {
+        // init day max of current item.
+        int dayMax = items[j];
+        // init min cost to previous day item j-1 + dayMax
+        int minCost = dp[i-1][j-1] + dayMax;
+
+        // loop over the items from back, updating dayMax and recalculating the minCost
+        for (int k = j-1; k >= i; k--) {
+          // update max of items j where k <= j < numberOfItems
+          dayMax = Math.max(dayMax, items[k]);
+          // update minCost of dayMax plus previous day of items j s.t. k < j - min of sum of maximums
+          minCost = Math.min(minCost, dp[i-1][k-1] + dayMax);
+        }
+        // Set minCost of day i for all items up to j
+        dp[i][j] = minCost;
+      }
+    }
+    // return final minCost of all items at last day
+    return dp[days-1][numberOfItems-1];
+  }
+
+  public static void main(String[] args) {
+    int[] arr = new int[]{10, 2, 20, 5, 15, 10, 1};
+    int d1 =3, d2=5;
+    MinimumTotalContainerSize minimumTotalContainerSize = new MinimumTotalContainerSize();
+    int result = minimumTotalContainerSize.findMinTotalContainerSize(arr, d1);
+    System.out.println("Expected = 31, Actual = "+result);
+    int result2 = minimumTotalContainerSize.findMinTotalContainerSize(arr, d2);
+    System.out.println("Expected = 43, Actual = "+result2);
+    int[] arr2 =  new int[]{5, 4, 2, 4, 3, 4, 5, 4};
+    int d3 = 4;
+    int result3 = minimumTotalContainerSize.findMinTotalContainerSize(arr2, d3);
+    System.out.println("Expected = 16, Actual = "+result3);
+    int[] arr3 = new int[]{22, 12, 1, 14, 17};
+    int d4 = 2;
+    int result4 = minimumTotalContainerSize.findMinTotalContainerSize(arr3, d4);
+    System.out.println("Expected = 39, Actual = "+result4);
+  }
 }

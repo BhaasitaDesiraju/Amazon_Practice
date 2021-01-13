@@ -50,7 +50,9 @@ public class AmazonDebtRecords {
     String borrower = "";
     String lender = "";
     int amount = 0;
-    debtRecord() { }
+    debtRecord() {
+
+    }
     debtRecord(String borrower, String lender, int amount) {
       this.borrower = borrower;
       this.lender = lender;
