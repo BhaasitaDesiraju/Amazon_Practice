@@ -137,7 +137,6 @@ public class MinimumTotalContainerSizeCombs {
     int numCombos = (int) combination(arr.length, numBuckets);
     int[][] combinationMatrix = new int[numCombos][numBuckets];
     int[] buckets;
-    long start = System.nanoTime();
     MinimumTotalContainerSizeCombs minimumTotalContainerSize = new MinimumTotalContainerSizeCombs();
     // initialize.
     minimumTotalContainerSize.cursor = 0;
@@ -153,6 +152,7 @@ public class MinimumTotalContainerSizeCombs {
     int currentRow = minimumTotalContainerSize.cursor;
     int [] cost = new int[numCombos];
     cost[0] = computeCost(arr, combinationMatrix[0]);
+    long start = System.nanoTime();
     while(currentRow < minimumTotalContainerSize.numRows) {
       buckets = combinationMatrix[currentRow];
       targetCol = numBuckets - 1;
