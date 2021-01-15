@@ -89,18 +89,30 @@ public class MinimumTotalContainerSize {
   public static void main(String[] args) {
     int[] arr = new int[]{10, 2, 20, 5, 15, 10, 1};
     int d1 =3, d2=5;
+
     MinimumTotalContainerSize minimumTotalContainerSize = new MinimumTotalContainerSize();
+    long start = System.nanoTime();
     int result = minimumTotalContainerSize.findMinTotalContainerSize(arr, d1);
-    System.out.println("Expected = 31, Actual = "+result);
+    long end = System.nanoTime();
+
+    System.out.println("Expected = 31, Actual = " + result + "; Time=" + (end-start));
+    start = System.nanoTime();
     int result2 = minimumTotalContainerSize.findMinTotalContainerSize(arr, d2);
-    System.out.println("Expected = 43, Actual = "+result2);
+    end = System.nanoTime();
+    System.out.println("Expected = 43, Actual = " + result2  + "; Time=" + (end-start));
+
     int[] arr2 =  new int[]{5, 4, 2, 4, 3, 4, 5, 4};
     int d3 = 4;
+    start = System.nanoTime();
     int result3 = minimumTotalContainerSize.findMinTotalContainerSize(arr2, d3);
-    System.out.println("Expected = 16, Actual = "+result3);
+    end = System.nanoTime();
+    System.out.println("Expected = 16, Actual = " + result3  + "; Time=" + (end-start));
+
     int[] arr3 = new int[]{22, 12, 1, 14, 17};
     int d4 = 2;
+    start = System.nanoTime();
     int result4 = minimumTotalContainerSize.findMinTotalContainerSize(arr3, d4);
-    System.out.println("Expected = 39, Actual = "+result4);
+    end = System.nanoTime();
+    System.out.println("Expected = 39, Actual = " + result4  + "; Time=" + (end-start));
   }
 }
